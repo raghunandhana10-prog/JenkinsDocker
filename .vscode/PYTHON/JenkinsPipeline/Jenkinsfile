@@ -3,22 +3,26 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
-                checkout scm
                 echo 'Code downloaded from GitHub'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t myapp .'
+                dir('.vscode/PYTHON/JenkinsPipeline') {
+                    bat 'docker build -t myapp .'
+                }
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                bat 'docker run --rm myapp'
+                dir('.vscode/PYTHON/JenkinsPipeline') {
+                    bat 'docker run --rm myapp'
+                }
             }
         }
     }
