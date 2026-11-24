@@ -1,0 +1,1 @@
+print("Hello! Git, Jenkins and Docker are connected!")

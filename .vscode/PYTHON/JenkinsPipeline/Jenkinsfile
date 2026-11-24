@@ -3,29 +3,33 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Welcome') {
+        stage('Checkout') {
             steps {
-                echo 'Welcome to Jenkins'
+                checkout scm
+                echo 'Code downloaded from GitHub'
             }
         }
 
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Application is building'
+                bat 'docker build -t myapp .'
             }
         }
 
-        stage('Test') {
+        stage('Run Docker Container') {
             steps {
-                echo 'Application is testing'
+                bat 'docker run --rm myapp'
             }
         }
+    }
 
-        stage('Deploy') {
-            steps {
-                echo 'Application is deploying'
-            }
+    post {
+        success {
+            echo 'Git Jenkins Docker Pipeline Successful!'
+        }
+
+        failure {
+            echo 'Pipeline Failed!'
         }
     }
 }
